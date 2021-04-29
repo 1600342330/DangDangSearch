@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8"/>
+    <title>ES当当网搜索实战</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <script crossorigin="anonymous" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js"></script>
+</head>
+
+<body class="pg">
+<div class="page" id="app">
+    <div id="mallPage" class=" mallist tmall- page-not-market ">
+
+        <!-- 头部搜索 -->
+        <div id="header" class=" header-list-app">
+            <div class="headerLayout">
+                <div class="headerCon ">
+                    <div class="header-extra" style="width: 600px">
+                        <!--搜索-->
+                        <div id="mallSearch" class="mall-search" >
+                            <form name="searchTop" id="searchTop" class="mallSearch-form clearfix" method="post">
+                                <fieldset>
+                                    <div class="mallSearch-input clearfix">
+                                        <div class="s-combobox" id="s-combobox-685">
+                                            <div class="s-combobox-input-wrap">
+                                                <input v-model="keyword" type="text" autocomplete="off" id="mq"
+                                                       class="s-combobox-input" aria-haspopup="true">
+                                            </div>
+                                        </div>
+                                        <button type="submit" id="searchbtn" onclick="search()">搜索</button>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+
+                    </div>
+                    <!--爬取数据-->
+                    <div style="float: right;margin-top: -45px">
+                        <form >
+                            <input v-model="keyword1" type="text" autocomplete="off"  >
+                            <button type="submit">爬取</button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- 商品详情页面 -->
+        <div id="content">
+            <div class="main">
+                <!-- 品牌分类 -->
+                <form class="navAttrsForm">
+                    <div class="attrs j_NavAttrs" style="display:block">
+                        <div class="brandAttr j_nav_brand">
+                            <div class="j_Brand attr">
+                                <div class="attrKey">
+                                    品牌
+                                </div>
+                                <div class="attrValues">
+                                    <ul class="av-collapse row-2">
+                                        <li><a href="#"> kexing </a></li>
+                                        <li><a href="#"> Java </a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- 排序规则 -->
+                <div class="filter clearfix">
+                    <a class="fSort fSort-cur">综合<i class="f-ico-arrow-d"></i></a>
+                    <a class="fSort">人气<i class="f-ico-arrow-d"></i></a>
+                    <a class="fSort">新品<i class="f-ico-arrow-d"></i></a>
+                    <a class="fSort">销量<i class="f-ico-arrow-d"></i></a>
+                    <a class="fSort">价格<i class="f-ico-triangle-mt"></i><i class="f-ico-triangle-mb"></i></a>
+                </div>
+
+                <!-- 商品详情 -->
+                <div class="view grid-nosku" th:each="li : ${lis}">
+                    <div class="product">
+                        <div class="product-iWrap">
+                            <!--商品封面-->
+                            <div class="productImg-wrap">
+                                <a class="productImg">
+                                    <img id="img" th:src="${li.get('img')}">
+                                </a>
+                            </div>
+                            <!--书名-->
+                            <p class="productTitle">
+                                <em id="title" th:utext="${li.get('title')}"></em>
+                            </p>
+                            <!--价格-->
+                            <p class="productPrice">
+                                <em id="price" th:text="${li.get('price')}"></em>
+                            </p>
+                            <!-- 作者信息 -->
+                            <div class="productShop">
+                                <span id="author" th:text="${li.get('author')}"></span>
+                            </div>
+                            <!-- 详情 -->
+                            <p class="productStatus" id="detail" th:text="${li.get('detail')}">
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+        function search() {
+            var input = $("#mq").val();
+            $("#searchTop").attr("action","/search/"+input);
+            $("#searchTop").submit();
+        }
+</script>
+
+</body>
+</html>
